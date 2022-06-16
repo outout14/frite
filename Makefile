@@ -23,7 +23,7 @@ vet:
 .PHONY: test
 test:
 	go test -v ./...
-	
+
 .PHONY: prepare
 prepare:
 	mkdir -p $(DIST_DIR)
@@ -51,11 +51,11 @@ package-deb: prepare
 .PHONY: package-rpm
 package-rpm: prepare
 	fpm -s dir -t rpm -n $(SOFT_NAME) -v $(VERSION_PKG) \
-	--description "$(DESCRIPTION)" \
-	--url "$(URL)" \
-	--architecture $(ARCH) \
-	--license "$(LICENSE) "\
-	--package $(DIST_DIR) \
-	$(OUTPUT_SOFT)=/usr/bin/frite-web \
-	extra/links.txt.example=/etc/frite/links.txt \
-	extra/frite-web.service=/usr/lib/systemd/system/frite-web.service
+		--description "$(DESCRIPTION)" \
+		--url "$(URL)" \
+		--architecture $(ARCH) \
+		--license "$(LICENSE) "\
+		--package $(DIST_DIR) \
+		$(OUTPUT_SOFT)=/usr/bin/frite-web \
+		extra/links.txt.example=/etc/frite/links.txt \
+		extra/frite-web.service=/usr/lib/systemd/system/frite-web.service
