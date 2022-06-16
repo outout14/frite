@@ -62,4 +62,9 @@ jobs:
               data: await fs.readFile(`./dist/${file}`)
             }); 
           }
- 
+
+    - name: Publish .deb to Gemfury
+      env:
+        GEMFURY_PUSH_TOKEN: ${{ secrets.GEMFURY_PUSH_TOKEN }}
+      run: |
+        curl -F package=@dist/frite*.deb https://{$GEMFURY_PUSH_TOKEN}@push.fury.io/enpls/
