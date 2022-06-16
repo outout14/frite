@@ -22,6 +22,7 @@ type App struct {
 	httpPort   int
 	httpSubdir string
 	debug      bool
+	testConfig bool
 }
 
 func fixuri(uri string) string {
@@ -36,6 +37,9 @@ func fixuri(uri string) string {
 
 func (a *App) getlinks(path string) error {
 	f, err := os.Open(path)
+
+	var e error
+
 	if err != nil {
 		return err
 	}
@@ -47,7 +51,7 @@ func (a *App) getlinks(path string) error {
 	for scanner.Scan() {
 		data := strings.Fields(scanner.Text())
 		if len(data) != 2 {
-			return fmt.Errorf("invalid syntax %s", data)
+			e = fmt.Errorf("invalid syntax %s", data)
 		} else {
 			l := link{short: data[0], to: data[1]}
 			links = append(links, l)
@@ -59,7 +63,7 @@ func (a *App) getlinks(path string) error {
 	}
 
 	a.links = links
-	return nil
+	return e
 }
 
 func (a App) httpGetLink(w http.ResponseWriter, r *http.Request) {
@@ -85,6 +89,7 @@ func main() {
 	webIP := flag.String("http-host", "127.0.0.1", "HTTP Listen IP")
 	webDir := flag.String("http-dir", "/", "If proxied in subfolder")
 	debugState := flag.Bool("debug", false, "Enable debug logs")
+	testConfig := flag.Bool("test", false, "Test links file for syntax")
 
 	flag.Parse()
 
@@ -93,11 +98,8 @@ func main() {
 		httpIP:     *webIP,
 		httpPort:   *webPort,
 		httpSubdir: fixuri(*webDir),
+		testConfig: *testConfig,
 	}
-	log.WithFields(log.Fields{
-		"debug": app.debug,
-		"http":  fmt.Sprintf("%s:%v%s", app.httpIP, app.httpPort, app.httpSubdir),
-	}).Info("CORE> Starting frite-web application")
 
 	if app.debug {
 		log.SetLevel(log.DebugLevel)
@@ -105,9 +107,14 @@ func main() {
 
 	err := app.getlinks(*linksPath)
 	if err != nil {
-		log.WithFields(log.Fields{
+		eFields := log.Fields{
 			"error": err,
-		}).Error("CORE> Failed to load short link")
+		}
+		if !app.testConfig {
+			log.WithFields(eFields).Error("CORE> Failed to load short link")
+		} else {
+			log.WithFields(eFields).Fatal("Failed to load short link")
+		}
 	}
 
 	log.Infof("CORE> Loaded %v urls", len(app.links))
