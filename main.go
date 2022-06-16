@@ -47,9 +47,7 @@ func (a *App) getlinks(path string) error {
 	for scanner.Scan() {
 		data := strings.Fields(scanner.Text())
 		if len(data) != 2 {
-			log.WithFields(log.Fields{
-				"short": data,
-			}).Error("CORE> Failed to load short link (invalid syntax):")
+			return fmt.Errorf("invalid syntax %s", data)
 		} else {
 			l := link{short: data[0], to: data[1]}
 			links = append(links, l)
@@ -105,14 +103,19 @@ func main() {
 		log.SetLevel(log.DebugLevel)
 	}
 
-	app.getlinks(*linksPath)
+	err := app.getlinks(*linksPath)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err,
+		}).Error("CORE> Failed to load short link")
+	}
 
 	log.Infof("CORE> Loaded %v urls", len(app.links))
 
 	log.Infof("HTTP> Listening on http://%s:%v", app.httpIP, app.httpPort)
 
 	http.HandleFunc("/", app.httpGetLink)
-	err := http.ListenAndServe(fmt.Sprintf("%s:%v", app.httpIP, app.httpPort), nil)
+	err = http.ListenAndServe(fmt.Sprintf("%s:%v", app.httpIP, app.httpPort), nil)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err": err,
