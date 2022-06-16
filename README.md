@@ -46,6 +46,8 @@ Usage of ./frite:
     	HTTP Listen port (default 8080)
   -links string
     	Path to the links file (default "links.txt")
+  -test
+    	Test links file for syntax
 ```
 
 FRITE will automaticly add a trailing slash to your ``-http-dir`` path. 
