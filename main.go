@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"strings"
@@ -35,19 +36,22 @@ func fixuri(uri string) string {
 	return uri
 }
 
-func (a *App) getlinks(path string) error {
+func (a *App) readlinks(path string) error {
 	f, err := os.Open(path)
-
-	var e error
-
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
+	err = a.parselinks(f)
+	return err
+}
+
+func (a *App) parselinks(r io.Reader) error {
+	var e error
 	var links []link
 
-	s := bufio.NewScanner(f)
+	s := bufio.NewScanner(r)
 	for s.Scan() {
 		if s.Text() != "" {
 			data := strings.Fields(s.Text())
@@ -73,6 +77,7 @@ func (a App) httpGetLink(w http.ResponseWriter, r *http.Request) {
 	log.WithFields(log.Fields{
 		"uri": uri,
 	}).Debugf("HTTP> got request")
+	log.Info(r.RequestURI)
 	for _, l := range a.links {
 		if l.short == uri {
 			log.Debug("CORE> short found")
@@ -107,11 +112,9 @@ func main() {
 		log.SetLevel(log.DebugLevel)
 	}
 
-	err := app.getlinks(*linksPath)
+	err := app.readlinks(*linksPath)
 	if err != nil {
-		eFields := log.Fields{
-			"error": err,
-		}
+		eFields := log.Fields{"error": err}
 		if !app.testConfig {
 			log.WithFields(eFields).Error("CORE> Failed to load short link")
 		} else {
