@@ -2,7 +2,7 @@
 
 F.R.I.T.E: Fast, Reliable lInk Transformation Engine 
 
-## Goal 
+## Goal 
 
 FRITE aims to make it possible to create simple link shortcuts using a regular text file. 
 
@@ -10,7 +10,7 @@ This software is available as a simple binary and does not require any PHP or No
 
 ### Use
 
-#### Installation 
+#### Installation 
 
 Get the latest binary or package for platform. 
 
