@@ -50,6 +50,4 @@ FRITE will automaticly add a trailing slash to your ``-http-dir`` path.
 
 ### LICENSE 
 
-This software is available under the [MIT license](/LICENSE)# FRITE 
-
-F.R.I.T.E: Fast, Reliable lInk Transformation Engine 
+This software is available under the [MIT license](/LICENSE)
