@@ -47,18 +47,20 @@ func (a *App) getlinks(path string) error {
 
 	var links []link
 
-	scanner := bufio.NewScanner(f)
-	for scanner.Scan() {
-		data := strings.Fields(scanner.Text())
-		if len(data) != 2 {
-			e = fmt.Errorf("invalid syntax %s", data)
-		} else {
-			l := link{short: data[0], to: data[1]}
-			links = append(links, l)
+	s := bufio.NewScanner(f)
+	for s.Scan() {
+		if s.Text() != "" {
+			data := strings.Fields(s.Text())
+			if len(data) != 2 {
+				e = fmt.Errorf("invalid syntax %s", data)
+			} else {
+				l := link{short: data[0], to: data[1]}
+				links = append(links, l)
+			}
 		}
 	}
 
-	if err := scanner.Err(); err != nil {
+	if err := s.Err(); err != nil {
 		return err
 	}
 
