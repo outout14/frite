@@ -23,6 +23,8 @@ demo    https://example.com
 <short url>     <destination url>
 ``` 
 
+You can separate links from shortcuts with tabs or spaces.
+
 (Do not forget to put the protocol (eg : ``https://`` before the destination URL)
 
 #### Configuration 
