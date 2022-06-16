@@ -1,5 +1,11 @@
 # FRITE 
 
+[![Go](https://github.com/outout14/frite/actions/workflows/go.yml/badge.svg)](https://github.com/outout14/frite/actions/workflows/go.yml)
+
+[![Release](https://github.com/outout14/frite/actions/workflows/release.yml/badge.svg)](https://github.com/outout14/frite/actions/workflows/release.yml)
+
+
+
 F.R.I.T.E: Fast, Reliable lInk Transformation Engine 
 
 ## Goal 
@@ -14,13 +20,28 @@ This software is available as a simple binary and does not require any PHP or No
 
 Get the latest binary or package for platform. 
 
-#### APT Repository 
+#### Repositories 
 
 There is currently no support for GPG signing on the repository. However, the repository connexion is encrpyted using https (you might need to install ``apt-transport-https`` on your machine). 
 
+##### APT 
+
+``/etc/apt/sources.list.d/enpls.list``
 ```
 deb [trusted=yes] https://repos.enpls.org/apt/ /
 ```
+
+##### YUM 
+
+``/etc/yum.repos.d/enpls.repo``
+```
+[enpls]
+name=Github.com/outout14 yum repository
+baseurl=https://repos.enpls.org/yum/
+enabled=1
+gpgcheck=0
+```
+
 
 #### Links format 
 
