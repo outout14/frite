@@ -4,8 +4,29 @@ After=network.target
 
 [Service]
 Type=simple
+; User=frite
+; Group=frite
 WorkingDirectory=/etc/frite/
 ExecStart=/usr/bin/frite-web --links /etc/frite/links.txt
+
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=true
+RestrictNamespaces=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectKernelTunables=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+LockPersonality=true
+RestrictSUIDSGID=true
+RemoveIPC=true
+RestrictRealtime=true
+SystemCallFilter=@system-service
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
 
 [Install]
 WantedBy=multi-user.target
