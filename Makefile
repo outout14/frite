@@ -20,6 +20,10 @@ OUTPUT_SOFT := $(DIST_DIR)frite-$(SOFT_VERSION)-$(GOOS)-$(ARCH)$(EXTENSION)
 vet:
 	go vet main.go
 
+.PHONY: test
+test:
+	go test -v ./...
+	
 .PHONY: prepare
 prepare:
 	mkdir -p $(DIST_DIR)
