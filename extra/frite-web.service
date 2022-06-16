@@ -1,0 +1,11 @@
+[Unit]
+Description=Sacrebleu DNS Server 
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/frite/
+ExecStart=/usr/bin/frite-web --links /etc/frite/links.txt
+
+[Install]
+WantedBy=multi-user.target
