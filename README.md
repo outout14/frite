@@ -14,6 +14,14 @@ This software is available as a simple binary and does not require any PHP or No
 
 Get the latest binary or package for platform. 
 
+#### APT Repository 
+
+There is currently no support for GPG signing on the repository. However, the repository connexion is encrpyted using https (you might need to install ``apt-transport-https`` on your machine). 
+
+```
+deb [trusted=yes] https://repos.enpls.org/apt/ /
+```
+
 #### Links format 
 
 By default, in packaged FRITE distributions, the systemd service will use ``/etc/frite/links.txt`` as the links file. 
