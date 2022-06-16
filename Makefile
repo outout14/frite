@@ -41,7 +41,8 @@ package-deb: prepare
         --license "$(LICENSE)" \
         --package $(DIST_DIR) \
         $(OUTPUT_SOFT)=/usr/bin/frite-web \
-		extra/links.txt.example=/etc/frite/links.txt
+		extra/links.txt.example=/etc/frite/links.txt \
+		extra/frite-web.service=/usr/lib/systemd/system/frite-web.service
 
 .PHONY: package-rpm
 package-rpm: prepare
@@ -52,4 +53,5 @@ package-rpm: prepare
 	--license "$(LICENSE) "\
 	--package $(DIST_DIR) \
 	$(OUTPUT_SOFT)=/usr/bin/frite-web \
-	extra/links.txt.example=/etc/frite/links.txt
+	extra/links.txt.example=/etc/frite/links.txt \
+	extra/frite-web.service=/usr/lib/systemd/system/frite-web.service
